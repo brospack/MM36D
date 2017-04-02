@@ -1,1 +1,1 @@
-# This Application just show girl's photo of you
+# This Application just show girl's photo for you
