@@ -1,7 +1,13 @@
 package com.aidchow.retrofit;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.net.UnknownServiceException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 
 /**
@@ -19,7 +25,19 @@ public abstract class MM36DCallBack<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable throwable) {
-        onFail(throwable.toString());
+        String msg = "";
+        if (throwable instanceof SocketTimeoutException) {
+            msg = "request Time out";
+        } else if (throwable instanceof ConnectException) {
+            msg = "Connect error";
+        } else if (throwable instanceof HttpException) {
+            msg = "net work can not use";
+        } else if (throwable instanceof UnknownHostException) {
+            msg = throwable.getMessage();
+        } else if (throwable instanceof UnknownServiceException) {
+            msg = "net work service can not use";
+        }
+        onFail(msg);
     }
 
     public abstract void onSuccess(T response);

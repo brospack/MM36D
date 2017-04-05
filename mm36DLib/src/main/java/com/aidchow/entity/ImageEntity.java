@@ -61,6 +61,32 @@ public class ImageEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof ImageEntity)) {
+            return false;
+        }
+        ImageEntity imageEntity = (ImageEntity) o;
+        return imageEntity.getBrowseNum().equals(browseNum) &&
+                imageEntity.getSmallImageUrl().equals(smallImageUrl) &&
+                imageEntity.getLabelId().equals(labelId) &&
+                imageEntity.getLikeNum().equals(likeNum) &&
+                imageEntity.getTitle().equals(title) &&
+                imageEntity.getPushDate().equals(pushDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + Integer.parseInt(labelId);
+        result = 31 * result + Integer.parseInt(browseNum);
+        result = 31 * result + Integer.parseInt(likeNum);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "ImageEntity{" +
                 "title='" + title + '\'' +

@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">MM36D</string>
+    <string name="app_name">品花社</string>
+    <string name="menu_find_flower">寻花</string>
+    <string name="menu_favorite">个人收藏</string>
+    <string name="menu_setting">设置</string>
+    <string name="open_content_drawer">open</string>
+    <string name="close_content_drawer">close</string>
+    <string name="home">首页</string>
+    <string name="pop">人气榜</string>
+    <string name="like">宠爱榜</string>
+    <string name="no_content">这里没有暂时没有妹纸哦!</string>
+    <string name="reload">再撸一次</string>
+    <string name="load_error">撸多了,出问题了</string>
+    <string name="browse_like_num">浏览(%1$s) 点赞(%2$s)</string>
+
+    <string-array name="home_tab_title_array">
+        <item>@string/home</item>
+        <item>@string/pop</item>
+        <item>@string/like</item>
+    </string-array>
 </resources>
