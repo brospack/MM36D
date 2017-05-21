@@ -102,18 +102,22 @@ public class ParseUtil {
      */
     public static ImageDetailEntity parseImageDetailEntity(String response) {
         ImageDetailEntity imageDetailEntity = new ImageDetailEntity();
-        Document document = Jsoup.parse(response);
-        Element element = document.select("div.grid_v").first();
-        String title = element.select("span.girl-txt").text();
-        String picUrl = element.select("img.lazy").attr("data-original");
-        String spanText = element.select("span[style=color: #000000]").text();
-        int poi = spanText.indexOf("/");
-        String totalPages = spanText.substring(poi + 1, spanText.length() - 2);
-        String currentPages = spanText.substring(poi - 1, poi);
-        imageDetailEntity.setTitle(title);
-        imageDetailEntity.setPicUrl(picUrl);
-        imageDetailEntity.setCurrentPage(Integer.parseInt(currentPages));
-        imageDetailEntity.setTotalPage(Integer.parseInt(totalPages));
+        List<String> urlList = new ArrayList<>();
+        try {
+            Document document = Jsoup.parse(response);
+            Element element = document.select("div.grid_v").first();
+            String title = element.select("span.girl-txt").text();
+            Elements es = document.select("li.re-sizemm");
+            imageDetailEntity.setTitle(title);
+            for (Element e : es) {
+                String picUrl = e.select("img.lazy").attr("data-original");
+                urlList.add(picUrl);
+            }
+            imageDetailEntity.setPicUrls(urlList);
+        } catch (Exception ignored) {
+
+        }
+
         return imageDetailEntity;
     }
 }

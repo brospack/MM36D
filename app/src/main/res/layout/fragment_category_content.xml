@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relative_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -11,7 +13,6 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/relative_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -26,9 +27,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
+
         </RelativeLayout>
 
     </com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout>
-</RelativeLayout>
 
+</RelativeLayout>
 

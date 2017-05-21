@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.category.CategoryFragment;
+import com.aidchow.mm36d.category.CategoryPresenter;
 import com.aidchow.mm36d.favorite.FavoriteFragment;
 import com.aidchow.mm36d.ui.BaseActivity;
 import com.aidchow.mm36d.ui.SettingActivity;
@@ -24,6 +25,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int mConcurrentPoi = -1;
+    private final FragmentManager.OnBackStackChangedListener onBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        @Override
+        public void onBackStackChanged() {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            } else {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +47,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             controlFragment(0);
         }
+        getSupportFragmentManager().addOnBackStackChangedListener(onBackStackChangedListener);
     }
 
     private void initView() {
@@ -49,7 +61,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -132,10 +148,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //当drawerLayout开启时，按backUp键时关闭drawerLayout
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
-        } else if (mConcurrentPoi != 0) {
+        } else if (mConcurrentPoi != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
             //if mConcurrentPoi !=0 make the navigation to first
             controlFragment(0);
             mNavigationView.setCheckedItem(R.id.menu_taste_flower);
+        } else if (mConcurrentPoi != 0 && getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }

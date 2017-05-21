@@ -44,6 +44,31 @@ public class FindFlowerEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FindFlowerEntity that = (FindFlowerEntity) o;
+
+        if (previewUrl != null ? !previewUrl.equals(that.previewUrl) : that.previewUrl != null)
+            return false;
+        if (toLabel != null ? !toLabel.equals(that.toLabel) : that.toLabel != null) return false;
+        if (category != null ? !category.equals(that.category) : that.category != null)
+            return false;
+        return total != null ? total.equals(that.total) : that.total == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = previewUrl != null ? previewUrl.hashCode() : 0;
+        result = 31 * result + (toLabel != null ? toLabel.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (total != null ? total.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "FindFlowerEntity{" +
                 "previewUrl='" + previewUrl + '\'' +

@@ -168,5 +168,19 @@ public class MM36D {
     }
 
 
+    public static void main(String[] args) {
+        MM36D mm36D = MM36D.create();
+        mm36D.imageDetail("0", "12", "88", 1, new OnRequestListener<ImageDetailEntity>() {
+            @Override
+            public void onRequestSuccess(ImageDetailEntity response) {
+                System.out.println(response.toString());
+            }
+
+            @Override
+            public void onRequestFail(String failReason) {
+
+            }
+        });
+    }
 
 }

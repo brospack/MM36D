@@ -1,23 +1,19 @@
 package com.aidchow.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by AidChow on 2017/4/2.
  * ImageDetail Entity
  */
 
-public class ImageDetailEntity {
-    private String picUrl;
+public class ImageDetailEntity implements Serializable {
+    private static final long serialVersionUID = 8556655454654665431L;
     private String title;
-    private int totalPage;
-    private int currentPage;
+    private List<String> picUrls;
 
-    public String getPicUrl() {
-        return picUrl;
-    }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-    }
 
     public String getTitle() {
         return title;
@@ -27,29 +23,11 @@ public class ImageDetailEntity {
         this.title = title;
     }
 
-    public int getTotalPage() {
-        return totalPage;
+    public List<String> getPicUrls() {
+        return picUrls;
     }
 
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    @Override
-    public String toString() {
-        return "ImageDetailEntity{" +
-                "picUrl='" + picUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", totalPage=" + totalPage +
-                ", currentPage=" + currentPage +
-                '}';
+    public void setPicUrls(List<String> picUrls) {
+        this.picUrls = picUrls;
     }
 }

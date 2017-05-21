@@ -1,9 +1,8 @@
-package com.aidchow.mm36d.adpter;
+package com.aidchow.mm36d.ui.rv;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.util.SortedList;
 
 import com.aidchow.entity.ImageEntity;
 

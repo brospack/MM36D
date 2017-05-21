@@ -3,7 +3,7 @@
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/card_item_dimen">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -26,8 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
-            android:text="@string/browse_like_num"
-            />
+            android:text="@string/browse_like_num" />
 
         <TextView
             android:id="@+id/tv_push_date"

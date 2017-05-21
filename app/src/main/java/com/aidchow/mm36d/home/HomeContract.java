@@ -15,12 +15,14 @@ import java.util.List;
 
 public interface HomeContract {
     interface View extends BaseView<Presenter> {
-        void showImages(List<ImageEntity> list);
+        void showImages(List<ImageEntity> list, boolean refresh, boolean loadMore);
+
 
         void showNoImages();
 
         void showLoadingImages(boolean isActive);
 
+        void loadingFinish();
 
         void showLoadingError(String errorMsg);
 
@@ -29,8 +31,10 @@ public interface HomeContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadHomeImages(@NonNull int page);
+        void loadHomeImages(@NonNull int page, boolean refresh, boolean loadMore);
 
-        void loadOthers(@NonNull String type, @NonNull int page);
+        void loadOthers(@NonNull String type, @NonNull int page, boolean refresh, boolean loadMore);
+
+        void loadToLabel(String category, int page, boolean refresh, boolean loadMore);
     }
 }

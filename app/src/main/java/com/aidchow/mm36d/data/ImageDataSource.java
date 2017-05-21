@@ -20,5 +20,7 @@ public interface ImageDataSource {
 
     void getHomeImages(@NonNull int page, LoadImageCallBack callBack);
 
-    void getOthers(@NonNull String type,@NonNull int page, LoadImageCallBack callBack);
+    void getOthers(@NonNull String type, @NonNull int page, LoadImageCallBack callBack);
+
+    void getToLabels(String category, int page, LoadImageCallBack callBack);
 }

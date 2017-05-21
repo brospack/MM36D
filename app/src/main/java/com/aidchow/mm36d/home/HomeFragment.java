@@ -1,5 +1,6 @@
 package com.aidchow.mm36d.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -19,9 +20,12 @@ import android.widget.TextView;
 import com.aidchow.entity.ImageEntity;
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.adpter.ImageAdapter;
-import com.aidchow.mm36d.adpter.ImageDiffCallBack;
+import com.aidchow.mm36d.imagedetail.ImageDetailActivity;
+import com.aidchow.mm36d.imagedetail.ImageDetailListFragment;
+import com.aidchow.mm36d.ui.rv.ImageDiffCallBack;
 import com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout;
 import com.aidchow.mm36d.util.Logger;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,28 +34,28 @@ import java.util.List;
  * Created by AidChow on 2017/4/2.
  */
 
-public class HomeFragment extends Fragment implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends Fragment implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
 
     public enum HOME_TYPE {
         HOME,
         POP,
-        LIKE
+        LIKE,
+        LBEL
     }
 
     private HomeContract.Presenter mPresenter;
 
     private static final String TYPE_KEY = "type_key";
-
+    private static final String CATEGORY = "category";
     private LinearLayout mErrorLinearLayout;
-    private LinearLayout mNoContentLinearLayout;
-    private RecyclerView mImageRecyclerView;
     private ScrollChildSwipeRefreshLayout mScrollChildSwipeRefreshLayout;
     private int type;
-    private TextView mTvReload;
-
     private ImageAdapter imageAdapter;
     private List<ImageEntity> imageEntityList;
+    private volatile int page = 1;
+    private String category;
+
 
     public static HomeFragment newInstance(HOME_TYPE type) {
         Bundle bundle = new Bundle();
@@ -67,16 +71,39 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         return homeFragment;
     }
 
+    public static HomeFragment newInstance(HOME_TYPE type, String category) {
+        Bundle bundle = new Bundle();
+        if (type == HOME_TYPE.HOME) {
+            bundle.putInt(TYPE_KEY, 0);
+        } else if (type == HOME_TYPE.POP) {
+            bundle.putInt(TYPE_KEY, 1);
+        } else if (type == HOME_TYPE.LIKE) {
+            bundle.putInt(TYPE_KEY, 2);
+        } else if (type == HOME_TYPE.LBEL) {
+            bundle.putInt(TYPE_KEY, 3);
+            bundle.putString(CATEGORY, category);
+        }
+        HomeFragment homeFragment = new HomeFragment();
+        homeFragment.setArguments(bundle);
+        return homeFragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            Logger.d("FUCK", "savedInstanceState");
+        }
         Bundle bundle = getArguments();
         if (bundle != null) {
             type = bundle.getInt(TYPE_KEY);
+            category = bundle.getString(CATEGORY);
             imageEntityList = new ArrayList<>(0);
             imageAdapter = new ImageAdapter(imageEntityList);
         }
+
+
         Logger.d("FUCKFUCK", "HOME onCreate");
 
     }
@@ -84,24 +111,39 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
     @Override
     public void onResume() {
         super.onResume();
-        if (mPresenter != null) {
-            mPresenter.start();
-        } else {
-            switch (type) {
-                case 0:
-                    mPresenter = new HomePresenter(this, HOME_TYPE.HOME);
-                    break;
-                case 1:
-                    mPresenter = new HomePresenter(this, HOME_TYPE.POP);
-                    break;
-                case 2:
-                    mPresenter = new HomePresenter(this, HOME_TYPE.LIKE);
-                    break;
+        if (getArguments().get("save") == null) {
+            if (mPresenter != null) {
+                mPresenter.start();
             }
-            mPresenter.start();
+            if (mPresenter == null) {
+                switch (type) {
+                    case 0:
+                        mPresenter = new HomePresenter(this, HOME_TYPE.HOME);
+                        break;
+                    case 1:
+                        mPresenter = new HomePresenter(this, HOME_TYPE.POP);
+                        break;
+                    case 2:
+                        mPresenter = new HomePresenter(this, HOME_TYPE.LIKE);
+                        break;
+                    case 3:
+                        mPresenter = new HomePresenter(this, HOME_TYPE.LBEL);
+                        break;
+                }
+                mPresenter.start();
+            }
+            if (category != null) {
+                mPresenter.loadToLabel(category, 1, false, false);
+            }
+            Logger.d("FUCK", "start");
+        } else {
+            Logger.d("FUCK", "restart");
         }
+
+
         Logger.d("FUCKFUCK", "HOME onResume");
     }
+
 
     @Nullable
     @Override
@@ -116,17 +158,18 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         initEvent();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        getArguments().putString("save", "save");
+    }
+
     /**
      * init event
      */
     private void initEvent() {
         mScrollChildSwipeRefreshLayout.setOnRefreshListener(this);
-        mTvReload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRefresh();
-            }
-        });
+        imageAdapter.setOnItemClickListener(this);
     }
 
     /**
@@ -136,21 +179,29 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
      */
     private void initView(View view) {
         mErrorLinearLayout = (LinearLayout) view.findViewById(R.id.linear_error_layout);
-        mNoContentLinearLayout = (LinearLayout) view.findViewById(R.id.linear_no_content_layout);
-        mTvReload = (TextView) view.findViewById(R.id.tv_reload);
-        mImageRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        TextView mTvReload = (TextView) view.findViewById(R.id.tv_reload);
+
+        //if there some error happened  use this to reload
+        mTvReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMore(1, true, false);
+            }
+        });
+        RecyclerView mImageRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         StaggeredGridLayoutManager mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mStaggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mImageRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         mImageRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mImageRecyclerView.setAdapter(imageAdapter);
+        imageAdapter.setOnLoadMoreListener(this, mImageRecyclerView);
+        imageAdapter.openLoadAnimation();
         mScrollChildSwipeRefreshLayout = (ScrollChildSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mScrollChildSwipeRefreshLayout.setScrollUpChild(mImageRecyclerView);
         mScrollChildSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorAccent),
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
                 ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-
     }
 
     @Override
@@ -158,31 +209,28 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
         if (presenter != null) {
             mPresenter = presenter;
         }
-        Logger.d("FUCKFUCK", "setPresenter");
     }
 
+
     @Override
-    public void showImages(List<ImageEntity> list) {
-        mImageRecyclerView.setVisibility(View.VISIBLE);
+    public synchronized void showImages(List<ImageEntity> list, boolean refresh, boolean loadMore) {
+        if (refresh) {
+            imageAdapter.setNewData(list);
+        } else {
+            imageAdapter.addData(list);
+        }
         mErrorLinearLayout.setVisibility(View.GONE);
-        mNoContentLinearLayout.setVisibility(View.GONE);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ImageDiffCallBack(imageEntityList, list), true);
-        diffResult.dispatchUpdatesTo(imageAdapter);
-        imageEntityList = list;
-        imageAdapter.setDatas(list);
+        imageAdapter.loadMoreComplete();
     }
 
     @Override
     public void showNoImages() {
-        mImageRecyclerView.setVisibility(View.GONE);
-        mErrorLinearLayout.setVisibility(View.GONE);
-        mNoContentLinearLayout.setVisibility(View.VISIBLE);
+        imageAdapter.setEmptyView(R.layout.no_content_layout);
         showMessage(this.getString(R.string.no_content));
     }
 
     @Override
     public void showLoadingImages(final boolean isActive) {
-        final ScrollChildSwipeRefreshLayout mScrollChildSwipeRefreshLayout = (ScrollChildSwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh);
         mScrollChildSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -192,9 +240,18 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
     }
 
     @Override
+    public void loadingFinish() {
+        imageAdapter.loadMoreEnd();
+        showMessage(this.getString(R.string.loading_finish));
+    }
+
+    @Override
     public void showLoadingError(String errorMsg) {
-        mNoContentLinearLayout.setVisibility(View.GONE);
-        mErrorLinearLayout.setVisibility(View.VISIBLE);
+        if (imageEntityList.size() > 0) {
+            imageAdapter.loadMoreFail();
+        } else {
+            mErrorLinearLayout.setVisibility(View.VISIBLE);
+        }
         showMessage(errorMsg);
     }
 
@@ -210,17 +267,37 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
 
     @Override
     public void onRefresh() {
+        loadMore(1, true, false);
+    }
+
+    private void loadMore(int page, boolean refresh, boolean loadMore) {
+
         if (type == 0) {
-            mPresenter.loadHomeImages(1);
+            mPresenter.loadHomeImages(page, refresh, loadMore);
             Logger.d("FUCK", "home");
         }
         if (type == 1) {
-            mPresenter.loadOthers("pop", 1);
+            mPresenter.loadOthers("pop", page, refresh, loadMore);
             Logger.d("FUCK", "pop");
         }
         if (type == 2) {
-            mPresenter.loadOthers("like", 1);
+            mPresenter.loadOthers("like", page, refresh, loadMore);
             Logger.d("FUCK", "like");
         }
+        if (type == 3) {
+            mPresenter.loadToLabel(category, page, refresh, loadMore);
+            Logger.d("FUCK", category);
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        loadMore(++page, false, true);
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        ImageEntity imageEntity = imageAdapter.getItem(position);
+        ImageDetailActivity.startActivity(getActivity(), imageEntity.getLabelId());
     }
 }

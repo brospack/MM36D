@@ -9,26 +9,14 @@ import com.aidchow.mm36d.R;
 
 
 public class SettingActivity extends BaseActivity {
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_category);
-        initToolbar();
+        initToolbar(getString(R.id.menu_setting));
     }
 
-    private void initToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-            ActionBar ab = getSupportActionBar();
-            if (ab != null) {
-                ab.setDisplayHomeAsUpEnabled(true);
-            }
-        }
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
