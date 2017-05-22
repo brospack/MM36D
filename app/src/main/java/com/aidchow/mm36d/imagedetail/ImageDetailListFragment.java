@@ -1,8 +1,10 @@
 package com.aidchow.mm36d.imagedetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +26,8 @@ import com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by AidChow on 2017/4/26.
@@ -50,6 +55,7 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailCont
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         label = getArguments().getString(LABEL);
+
     }
 
     @Override
@@ -140,7 +146,12 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailCont
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+        Intent detailIntent = new Intent(getActivity(), ImageDetailActivity.class);
+        detailIntent.putExtra("image_url", mImageDetailListAdapter.getData().get(position));
+        ImageView coverImageView = (ImageView) view.findViewById(R.id.image_view_mm);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(getActivity(), coverImageView, "cover");
+        startActivity(detailIntent, optionsCompat.toBundle());
     }
 
     @Override

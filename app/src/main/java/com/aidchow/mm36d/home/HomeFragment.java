@@ -1,13 +1,11 @@
 package com.aidchow.mm36d.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,9 +18,7 @@ import android.widget.TextView;
 import com.aidchow.entity.ImageEntity;
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.adpter.ImageAdapter;
-import com.aidchow.mm36d.imagedetail.ImageDetailActivity;
-import com.aidchow.mm36d.imagedetail.ImageDetailListFragment;
-import com.aidchow.mm36d.ui.rv.ImageDiffCallBack;
+import com.aidchow.mm36d.imagedetail.ImageDetailListActivity;
 import com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout;
 import com.aidchow.mm36d.util.Logger;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -298,6 +294,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, SwipeRe
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         ImageEntity imageEntity = imageAdapter.getItem(position);
-        ImageDetailActivity.startActivity(getActivity(), imageEntity.getLabelId());
+        ImageDetailListActivity.startActivity(getActivity(), imageEntity.getLabelId());
     }
 }

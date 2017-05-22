@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.aidchow.mm36d">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,7 +23,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SettingActivity" />
-        <activity android:name=".imagedetail.ImageDetailActivity" />
+        <activity android:name=".imagedetail.ImageDetailListActivity" />
+        <activity
+            android:name=".imagedetail.ImageDetailActivity"
+            android:theme="@style/AppTheme.ImageDetailActivity" />
     </application>
 
 </manifest>

@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.EditText;
 
 import com.aidchow.mm36d.App;
@@ -17,6 +19,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class Utils {
+    private final static int DEFAULT_DELAY = 0;
 
     public static boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -40,8 +43,7 @@ public class Utils {
     }
 
     public static float dp2px(Context context, float dp) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                context.getResources().getDisplayMetrics());
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 
     /**
@@ -58,14 +60,16 @@ public class Utils {
     }
 
 
-
     public static String getNowDate() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println("时间格式化：" + sdf.format(System.currentTimeMillis()));
         return sdf.format(System.currentTimeMillis());
     }
 
-
+    public static ViewPropertyAnimator showViewByScale(View v) {
+        return v.animate().setStartDelay(DEFAULT_DELAY)
+                .scaleX(1).scaleY(1);
+    }
 
 
     private Utils() {

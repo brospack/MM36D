@@ -5,6 +5,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.net.UnknownServiceException;
 
+import okhttp3.internal.tls.OkHostnameVerifier;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.HttpException;
@@ -19,6 +20,8 @@ public abstract class MM36DCallBack<T> implements Callback<T> {
         if (response.isSuccessful()) {
             onSuccess(response.body());
         } else {
+            System.out.println(response.code() + " 错误码 ");
+            System.out.println(response.message() + " 错误信息 ");
             onFail(response.message());
         }
     }

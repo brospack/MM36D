@@ -3,11 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "com.aidchow.mm36d"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,6 +16,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
@@ -34,5 +35,10 @@ dependencies {
     compile "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.brvahVersion"
     compile project(path: ':mm36DLib')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'
+
+    compile "com.mikepenz:iconics-core:2.8.4@aar"
+    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
+    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar'
     testCompile 'junit:junit:4.12'
 }
