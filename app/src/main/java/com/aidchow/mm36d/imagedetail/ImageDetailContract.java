@@ -1,6 +1,7 @@
 package com.aidchow.mm36d.imagedetail;
 
-import com.aidchow.entity.ImageDetailEntity;
+import android.net.Uri;
+
 import com.aidchow.mm36d.BasePresenter;
 import com.aidchow.mm36d.BaseView;
 
@@ -11,14 +12,29 @@ import com.aidchow.mm36d.BaseView;
 public interface ImageDetailContract {
 
     interface View extends BaseView<Presenter> {
-        void showImageDetail(ImageDetailEntity imageDetailEntity, boolean refresh);
 
-        void showLoadError(String msg);
+        void downLoadComplete(String filePath);
 
-        void showLoading(boolean isShow);
+        void downLoadFail(String msg);
+
+        void showDownLoading(long downloaded, int total);
+
+        void setShare(Uri uri);
+
     }
 
     interface Presenter extends BasePresenter {
-        void getImageDetail(String label, int page, boolean refresh);
+
+        void downloadImage(String url);
+
+        void downloadCancel();
+
+        void setImageWalls(String url);
+
+        void shareImage(String url);
+
+
     }
+
+
 }

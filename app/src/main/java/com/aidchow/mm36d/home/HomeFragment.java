@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.aidchow.entity.ImageEntity;
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.adpter.ImageAdapter;
-import com.aidchow.mm36d.imagedetail.ImageDetailListActivity;
+import com.aidchow.mm36d.imagedetaillist.ImageDetailListActivity;
 import com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout;
 import com.aidchow.mm36d.util.Logger;
 import com.chad.library.adapter.base.BaseQuickAdapter;

@@ -1,6 +1,8 @@
 package com.aidchow.mm36d.imagedetail;
 
-import com.aidchow.entity.ImageDetailEntity;
+import android.content.Context;
+import android.net.Uri;
+
 import com.aidchow.mm36d.data.ImageDetailDataSource;
 import com.aidchow.mm36d.data.remote.ImageDetailRemoteDataSource;
 
@@ -12,9 +14,9 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
     private ImageDetailRemoteDataSource imageDetailRemoteDataSource;
     private final ImageDetailContract.View view;
 
-    public ImageDetailPresenter(ImageDetailContract.View view) {
+    public ImageDetailPresenter(Context context, ImageDetailContract.View view) {
         this.view = view;
-        this.imageDetailRemoteDataSource = new ImageDetailRemoteDataSource();
+        this.imageDetailRemoteDataSource = new ImageDetailRemoteDataSource(context);
         view.setPresenter(this);
     }
 
@@ -23,22 +25,86 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
 
     }
 
+
     @Override
-    public void getImageDetail(String label, int page, final boolean refresh) {
-        view.showLoading(true);
-        imageDetailRemoteDataSource.getImageDetail(label, page, new ImageDetailDataSource.LoadImageDetailCall() {
+    public void downloadImage(String url) {
+        imageDetailRemoteDataSource.downloadImage(url, new ImageDetailDataSource.DownloadImageCall() {
             @Override
-            public void onImageDetailLoad(ImageDetailEntity imageDetailEntity) {
-                view.showImageDetail(imageDetailEntity, refresh);
-                view.showLoading(false);
+            public void downloadComplete(String filePath) {
+                view.downLoadComplete(filePath);
             }
 
             @Override
-            public void onImageDetailLoadError(String msg) {
-                view.showLoading(false);
-                view.showLoadError(msg);
+            public void downloadError(String msg) {
+                view.downLoadFail(msg);
+            }
+
+            @Override
+            public void downloading(long downloaded, int total) {
+                view.showDownLoading(downloaded, total);
+            }
+
+            @Override
+            public void shareUri(Uri uri) {
+
             }
         });
     }
+
+    @Override
+    public void downloadCancel() {
+        imageDetailRemoteDataSource.downloadCancel();
+    }
+
+    @Override
+    public void setImageWalls(String url) {
+        imageDetailRemoteDataSource.setImageWalls(url, new ImageDetailDataSource.DownloadImageCall() {
+            @Override
+            public void downloadComplete(String filePath) {
+                view.downLoadComplete(filePath);
+            }
+
+            @Override
+            public void downloadError(String msg) {
+                view.downLoadFail(msg);
+            }
+
+            @Override
+            public void downloading(long downloaded, int total) {
+                view.showDownLoading(downloaded, total);
+            }
+
+            @Override
+            public void shareUri(Uri uri) {
+
+            }
+        });
+    }
+
+    @Override
+    public void shareImage(String url) {
+        imageDetailRemoteDataSource.shareImage(url, new ImageDetailDataSource.DownloadImageCall() {
+            @Override
+            public void downloadComplete(String filePath) {
+                view.downLoadComplete(filePath);
+            }
+
+            @Override
+            public void downloadError(String msg) {
+                view.downLoadFail(msg);
+            }
+
+            @Override
+            public void downloading(long downloaded, int total) {
+                view.showDownLoading(downloaded, total);
+            }
+
+            @Override
+            public void shareUri(Uri uri) {
+                view.setShare(uri);
+            }
+        });
+    }
+
 
 }

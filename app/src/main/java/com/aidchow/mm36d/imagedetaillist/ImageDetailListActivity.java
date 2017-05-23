@@ -1,4 +1,4 @@
-package com.aidchow.mm36d.imagedetail;
+package com.aidchow.mm36d.imagedetaillist;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +26,7 @@ public class ImageDetailListActivity extends BaseActivity {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ImageDetailListFragment imageDetailListFragment = ImageDetailListFragment.newInstance(label);
-            new ImageDetailPresenter(imageDetailListFragment);
+            new ImageDetailListPresenter(imageDetailListFragment);
             ft.add(R.id.frame_content, imageDetailListFragment)
                     .commit();
         }

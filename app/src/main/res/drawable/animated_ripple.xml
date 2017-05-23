@@ -2,5 +2,4 @@
 <transition xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ripple_round" />
     <item android:drawable="@drawable/ripple_round_green" />
-
 </transition>

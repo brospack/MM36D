@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/relative_content"
+    android:id="@+id/coordinator_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA000000"
-    android:clickable="true"
-    android:gravity="center">
+    android:clickable="true">
 
-    <com.aidchow.mm36d.ui.widget.ScaleImageView
-        android:id="@+id/image_view_mm"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:background="#AA000000"
+        android:gravity="center">
 
-    <ImageButton
-        android:id="@+id/image_detail_fab_download"
-        android:layout_width="@dimen/fab_small"
-        android:layout_height="@dimen/fab_small"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/image_view_mm"
-        android:layout_marginEnd="@dimen/fab_small_margin_right"
-        android:layout_marginTop="@dimen/fab_small_margin_top"
-        android:background="@drawable/animated_ripple"
-        android:elevation="3dp"
-        android:padding="8dp"
-        android:transitionName="fab" />
+        <com.aidchow.mm36d.ui.widget.ScaleImageView
+            android:id="@+id/image_view_mm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <ImageButton
-        android:id="@+id/image_detail_fab_share"
-        android:layout_width="@dimen/fab_small"
-        android:layout_height="@dimen/fab_small"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/image_view_mm"
-        android:layout_marginEnd="@dimen/fab_small_margin_right"
-        android:layout_marginTop="@dimen/fab_small_margin_top"
-        android:background="@drawable/animated_ripple"
-        android:elevation="3dp"
-        android:padding="8dp"
-        android:transitionName="fab" />
+        <ImageButton
+            android:id="@+id/image_detail_fab_download"
+            android:layout_width="@dimen/fab_small"
+            android:layout_height="@dimen/fab_small"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/image_view_mm"
+            android:layout_marginEnd="@dimen/fab_small_margin_right"
+            android:layout_marginTop="@dimen/fab_small_margin_top"
+            android:background="@drawable/animated_ripple"
+            android:elevation="3dp"
+            android:padding="8dp"
+            android:transitionName="fab" />
 
-    <com.github.lzyzsd.circleprogress.DonutProgress
-        android:id="@+id/activity_detail_progress"
-        android:layout_width="@dimen/fab_progress"
-        android:layout_height="@dimen/fab_progress"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/image_view_mm"
-        android:layout_marginEnd="@dimen/fab_progress_margin_right"
-        android:layout_marginTop="@dimen/fab_progress_margin_top"
-        android:elevation="4dp"
-        android:padding="8dp"
-        app:donut_progress="1" />
+        <ImageButton
+            android:id="@+id/image_detail_fab_share"
+            android:layout_width="@dimen/fab_small"
+            android:layout_height="@dimen/fab_small"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/image_view_mm"
+            android:layout_marginEnd="@dimen/fab_small_margin_right"
+            android:layout_marginTop="@dimen/fab_small_margin_top"
+            android:background="@drawable/animated_ripple"
+            android:elevation="3dp"
+            android:padding="8dp"
+            android:transitionName="fab" />
 
-    <ImageButton
-        android:id="@+id/image_detail_fab_walls"
-        android:layout_width="@dimen/fab_normal"
-        android:layout_height="@dimen/fab_normal"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/image_view_mm"
-        android:layout_marginEnd="@dimen/fab_normal_margin_right"
-        android:layout_marginTop="@dimen/fab_normal_margin_top"
-        android:background="@drawable/animated_ripple"
-        android:elevation="4dp"
-        android:padding="8dp"
-        android:stateListAnimator="@animator/fab_animation"
-        android:transitionName="fab" />
-</RelativeLayout>
+        <com.github.lzyzsd.circleprogress.DonutProgress
+            android:id="@+id/activity_detail_progress"
+            android:layout_width="@dimen/fab_progress"
+            android:layout_height="@dimen/fab_progress"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/image_view_mm"
+            android:layout_marginEnd="@dimen/fab_progress_margin_right"
+            android:layout_marginTop="@dimen/fab_progress_margin_top"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:donut_progress="1" />
+
+        <ImageButton
+            android:id="@+id/image_detail_fab_walls"
+            android:layout_width="@dimen/fab_normal"
+            android:layout_height="@dimen/fab_normal"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/image_view_mm"
+            android:layout_marginEnd="@dimen/fab_normal_margin_right"
+            android:layout_marginTop="@dimen/fab_normal_margin_top"
+            android:background="@drawable/animated_ripple"
+            android:elevation="4dp"
+            android:padding="8dp"
+            android:stateListAnimator="@animator/fab_animation"
+            android:transitionName="fab" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

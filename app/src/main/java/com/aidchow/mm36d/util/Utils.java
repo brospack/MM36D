@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 
 import com.aidchow.mm36d.App;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 /**
@@ -71,6 +73,31 @@ public class Utils {
                 .scaleX(1).scaleY(1);
     }
 
+    public static ViewPropertyAnimator hideViewByScaleXY(View v) {
+        return hideViewByScale(v, DEFAULT_DELAY, 0, 0);
+    }
+
+    public static ViewPropertyAnimator hideViewByScaleX(View v) {
+        return hideViewByScale(v, DEFAULT_DELAY, 0, 1);
+    }
+
+    public static ViewPropertyAnimator hideViewByScaleY(View v) {
+        return hideViewByScale(v, DEFAULT_DELAY, 1, 0);
+    }
+
+    private static ViewPropertyAnimator hideViewByScale(View v, int delay, int x, int y) {
+        return v.animate().setStartDelay(delay)
+                .scaleX(x).scaleY(y);
+    }
+
+    public static File getAlbumStorageDir(String albuName) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albuName);
+        if (!file.exists()) {
+            file.mkdirs();
+            Logger.i("Taste Flower", "directory not create");
+        }
+        return file;
+    }
 
     private Utils() {
         throw new AssertionError("No Instances");

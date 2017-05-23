@@ -46,7 +46,7 @@ public class Logger {
         }
     }
 
-    public void i(String tag, String msg) {
+    public static void i(String tag, String msg) {
         if (LEVEL <= INFO) {
             Log.i(tag, msg);
         }

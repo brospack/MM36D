@@ -1,4 +1,4 @@
-package com.aidchow.mm36d.imagedetail;
+package com.aidchow.mm36d.imagedetaillist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,20 +22,20 @@ import android.widget.TextView;
 import com.aidchow.entity.ImageDetailEntity;
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.adpter.ImageDetailListAdapter;
+import com.aidchow.mm36d.imagedetail.ImageDetailActivity;
+import com.aidchow.mm36d.imagedetail.ImageDetailPresenter;
 import com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
-
 /**
  * Created by AidChow on 2017/4/26.
  */
 
-public class ImageDetailListFragment extends Fragment implements ImageDetailContract.View,
+public class ImageDetailListFragment extends Fragment implements ImageDetailListContract.View,
         BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-    private ImageDetailContract.Presenter mPresenter;
+    private ImageDetailListContract.Presenter mPresenter;
     private ImageDetailListAdapter mImageDetailListAdapter;
     private String label;
     public static final String LABEL = "label";
@@ -61,6 +61,9 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailCont
     @Override
     public void onResume() {
         super.onResume();
+        if (getArguments().getString("IMAGE_LOAD") != null) {
+            return;
+        }
         if (label != null) {
             if (mPresenter != null) {
                 mPresenter.getImageDetail(label, 0, false);
@@ -107,7 +110,7 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailCont
     }
 
     @Override
-    public void setPresenter(ImageDetailContract.Presenter presenter) {
+    public void setPresenter(ImageDetailListContract.Presenter presenter) {
         if (presenter != null) {
             mPresenter = presenter;
         }
@@ -157,5 +160,11 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailCont
     @Override
     public void onRefresh() {
         mPresenter.getImageDetail(label, 0, true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getArguments().putString("IMAGE_LOAD", "image_load");
     }
 }

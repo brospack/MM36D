@@ -1,17 +1,31 @@
 package com.aidchow.mm36d.data;
 
-import com.aidchow.entity.ImageDetailEntity;
+import android.net.Uri;
 
 /**
  * Created by 78537 on 2017/4/22.
  */
 
 public interface ImageDetailDataSource {
-    interface LoadImageDetailCall {
-        void onImageDetailLoad(ImageDetailEntity imageDetailEntity);
 
-        void onImageDetailLoadError(String msg);
+
+    interface DownloadImageCall {
+        void downloadComplete(String filePath);
+
+        void downloadError(String msg);
+
+        void downloading(long downloaded, int total);
+
+        void shareUri(Uri uri);
     }
 
-    void getImageDetail(String label, int page, LoadImageDetailCall loadImageDetailCall);
+
+    void downloadImage(String url, DownloadImageCall downloadImageCall);
+
+    void downloadCancel();
+
+    void setImageWalls(String url, DownloadImageCall downloadImageCall);
+
+    void shareImage(String url, DownloadImageCall downloadImageCall);
+
 }
