@@ -18,6 +18,7 @@
     <string name="download_complete">下载完成</string>
     <string name="share_hint">分享到...</string>
     <string name="permission_description">我们需要这些权限，来保存文件</string>
+    <string name="empty_favorite_string">快去选几张你喜欢的图片收藏吧</string>
     <string-array name="home_tab_title_array">
         <item>@string/home</item>
         <item>@string/pop</item>

@@ -1,19 +1,21 @@
-package com.aidchow.mm36d.imagedetaillist;
+package com.aidchow.mm36d.favorite;
 
 import android.content.Context;
 
 import com.aidchow.entity.ImageDetailEntity;
+import com.aidchow.mm36d.data.ImageDetailListDataSource;
 import com.aidchow.mm36d.data.remote.ImageDetailListRemoteDataSource;
+import com.aidchow.mm36d.imagedetaillist.ImageDetailListContract;
 
 /**
  * Created by AidChow on 2017/4/22.
  */
 
-public class ImageDetailListPresenter implements ImageDetailListContract.Presenter {
+public class FavoritePresenter implements FavoriteContract.Presenter {
     private ImageDetailListRemoteDataSource imageDetailListRemoteDataSource;
-    private final ImageDetailListContract.View view;
+    private final FavoriteContract.View view;
 
-    public ImageDetailListPresenter(Context context, ImageDetailListContract.View view) {
+    public FavoritePresenter(Context context, FavoriteContract.View view) {
         this.view = view;
         this.imageDetailListRemoteDataSource = new ImageDetailListRemoteDataSource(context);
         view.setPresenter(this);
@@ -21,13 +23,14 @@ public class ImageDetailListPresenter implements ImageDetailListContract.Present
 
     @Override
     public void start() {
-
+        loadImages(false);
     }
 
+
     @Override
-    public void getImageDetail(String label, int page, final boolean refresh) {
+    public void loadImages(final boolean refresh) {
         view.showLoading(true);
-        imageDetailListRemoteDataSource.getImageDetail(label, page, new ImageDetailListRemoteDataSource.LoadImageDetailCall() {
+        imageDetailListRemoteDataSource.loadLocalImages(new ImageDetailListDataSource.LoadImageDetailCall() {
             @Override
             public void onImageDetailLoad(ImageDetailEntity imageDetailEntity) {
                 view.showImageDetail(imageDetailEntity, refresh);
@@ -36,8 +39,8 @@ public class ImageDetailListPresenter implements ImageDetailListContract.Present
 
             @Override
             public void onImageDetailLoadError(String msg) {
-                view.showLoading(false);
                 view.showLoadError(msg);
+                view.showLoading(false);
             }
         });
     }

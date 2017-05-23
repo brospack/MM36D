@@ -1,11 +1,13 @@
 package com.aidchow.mm36d.imagedetaillist;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,8 +25,8 @@ import android.widget.TextView;
 import com.aidchow.entity.ImageDetailEntity;
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.adpter.ImageDetailListAdapter;
+import com.aidchow.mm36d.favorite.FavoriteFragment;
 import com.aidchow.mm36d.imagedetail.ImageDetailActivity;
-import com.aidchow.mm36d.imagedetail.ImageDetailPresenter;
 import com.aidchow.mm36d.ui.widget.ScrollChildSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -34,7 +37,7 @@ import java.util.ArrayList;
  */
 
 public class ImageDetailListFragment extends Fragment implements ImageDetailListContract.View,
-        BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+        BaseQuickAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemChildClickListener {
     private ImageDetailListContract.Presenter mPresenter;
     private ImageDetailListAdapter mImageDetailListAdapter;
     private String label;
@@ -42,6 +45,8 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailList
     private ActionBar actionBar;
     private LinearLayout mErrorLinearLayout;
     private ScrollChildSwipeRefreshLayout mScrollChildSwipeRefreshLayout;
+    private Drawable mSaveDrawable;
+    private Drawable mDeleteDrawable;
 
     public static ImageDetailListFragment newInstance(String label) {
         Bundle bundle = new Bundle();
@@ -103,10 +108,14 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailList
                 findViewById(R.id.image_list_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         imageListRecyclerview.setLayoutManager(linearLayoutManager);
-        mImageDetailListAdapter = new ImageDetailListAdapter(new ArrayList<String>(0));
+        mImageDetailListAdapter = new ImageDetailListAdapter(new ArrayList<String>(0), mPresenter);
         imageListRecyclerview.setAdapter(mImageDetailListAdapter);
         mImageDetailListAdapter.setOnItemClickListener(this);
         mScrollChildSwipeRefreshLayout.setOnRefreshListener(this);
+
+        mImageDetailListAdapter.setOnItemChildClickListener(this);
+        mSaveDrawable = getActivity().getDrawable(R.drawable.ic_favorite);
+        mDeleteDrawable = getActivity().getDrawable(R.drawable.ic_favorite_borde);
     }
 
     @Override
@@ -147,6 +156,7 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailList
 
     }
 
+
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent detailIntent = new Intent(getActivity(), ImageDetailActivity.class);
@@ -166,5 +176,21 @@ public class ImageDetailListFragment extends Fragment implements ImageDetailList
     public void onPause() {
         super.onPause();
         getArguments().putString("IMAGE_LOAD", "image_load");
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        String imageUrl = mImageDetailListAdapter.getData().get(position);
+        ImageButton mFabSaveButton = (ImageButton) view.findViewById(R.id.image_fab_save);
+        if (mPresenter.loadImage(imageUrl)) {
+            mPresenter.delete(imageUrl);
+            mFabSaveButton.setImageDrawable(mDeleteDrawable);
+        } else {
+            mPresenter.saveImage(imageUrl);
+            mFabSaveButton.setImageDrawable(mSaveDrawable);
+        }
+        Intent intent = new Intent(FavoriteFragment.FAVORITE_CHANGE);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
     }
 }

@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aidchow.mm36d.ui.widget.ScaleImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/image_view_mm"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-</com.aidchow.mm36d.ui.widget.ScaleImageView>
+    <com.aidchow.mm36d.ui.widget.ScaleImageView
+        android:id="@+id/image_view_mm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/image_fab_save"
+        android:layout_width="@dimen/fab_small"
+        android:layout_height="@dimen/fab_small"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/fab_normal_margin_right"
+        android:layout_marginEnd="@dimen/fab_normal_margin_right"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_favorite_borde" />
+</RelativeLayout>

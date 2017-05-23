@@ -13,7 +13,13 @@ public interface ImageDetailListDataSource {
         void onImageDetailLoadError(String msg);
     }
 
-
     void getImageDetail(String label, int page, LoadImageDetailCall loadImageDetailCall);
 
+    void saveImages(String imageUrl);
+
+    void loadLocalImages(LoadImageDetailCall loadImageDetailCall);
+
+    boolean loadImage(String url);
+
+    void deleteImage(String imageUrl);
 }

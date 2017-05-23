@@ -15,7 +15,9 @@ import android.view.MenuItem;
 import com.aidchow.mm36d.R;
 import com.aidchow.mm36d.category.CategoryFragment;
 import com.aidchow.mm36d.category.CategoryPresenter;
+import com.aidchow.mm36d.favorite.FavoriteContract;
 import com.aidchow.mm36d.favorite.FavoriteFragment;
+import com.aidchow.mm36d.favorite.FavoritePresenter;
 import com.aidchow.mm36d.ui.BaseActivity;
 import com.aidchow.mm36d.ui.SettingActivity;
 
@@ -90,6 +92,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.menu_favorite:
                 controlFragment(2);
+
                 break;
             case R.id.menu_setting:
                 startActivity(new Intent(this, SettingActivity.class), extras);
@@ -135,6 +138,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment = CategoryFragment.newInstance();
         } else if (position == 2) {
             fragment = FavoriteFragment.newInstance();
+            new FavoritePresenter(this, (FavoriteContract.View) fragment);
         }
         return fragment;
     }

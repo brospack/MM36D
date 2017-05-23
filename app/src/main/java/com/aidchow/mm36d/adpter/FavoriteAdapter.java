@@ -5,8 +5,8 @@ import android.widget.ImageButton;
 
 import com.aidchow.mm36d.App;
 import com.aidchow.mm36d.R;
+import com.aidchow.mm36d.favorite.FavoriteContract;
 import com.aidchow.mm36d.imagedetaillist.ImageDetailListContract;
-import com.aidchow.mm36d.imagedetaillist.ImageDetailListPresenter;
 import com.aidchow.mm36d.ui.widget.ScaleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -20,10 +20,10 @@ import java.util.List;
  * Created by 78537 on 2017/4/26.
  */
 
-public class ImageDetailListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    private ImageDetailListContract.Presenter presenter;
+public class FavoriteAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private FavoriteContract.Presenter presenter;
 
-    public ImageDetailListAdapter(List<String> data, ImageDetailListContract.Presenter presenter) {
+    public FavoriteAdapter(List<String> data, FavoriteContract.Presenter presenter) {
         super(R.layout.detail_image_item, data);
         this.presenter = presenter;
     }

@@ -7,6 +7,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.aidchow.mm36d.favorite.FavoriteFragment;
+
 /**
  * Extends {@link SwipeRefreshLayout} to support non-direct descendant scrolling views.
  * <p>
@@ -37,4 +39,6 @@ public class ScrollChildSwipeRefreshLayout extends SwipeRefreshLayout {
     public void setScrollUpChild(View view) {
         mScrollUpChild = view;
     }
+
+
 }
