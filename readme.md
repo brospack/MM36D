@@ -18,6 +18,9 @@
 ![分类](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/categroy.jpg)
 ![分类](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/detail.jpg)
 
+## 下载地址
+
+[下载](http://fir.im/qvge)
 
 ## 第三方依赖
 
