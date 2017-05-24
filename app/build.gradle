@@ -34,11 +34,11 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     compile "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.brvahVersion"
     compile project(path: ':mm36DLib')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.github.lzyzsd:circleprogress:1.2.1'
 
-    compile "com.mikepenz:iconics-core:2.8.4@aar"
-    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
-    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar'
-    testCompile 'junit:junit:4.12'
+    compile "com.github.lzyzsd:circleprogress:$rootProject.circleprogress"
+    compile("com.mikepenz:aboutlibraries:$rootProject.aboutlibraries@aar") {
+        transitive = true
+    }
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    testCompile "junit:junit:$rootProject.junit"
 }

@@ -25,7 +25,10 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed" />
+            app:tabIndicatorColor="@android:color/white"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/textUnSelectColor" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
