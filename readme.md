@@ -14,6 +14,6 @@
 
 ## 截图
 
-![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/Screenshot_20170524-151333.png)
-![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/Screenshot_20170524-151333.png)
+![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/1.jpg)
+![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/2.jpg)
 
