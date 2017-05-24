@@ -14,6 +14,40 @@
 
 ## 截图
 
-![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/1.jpg)
-![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/2.jpg)
+![首页](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/home.jpg)
+![分类](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/categroy.jpg)
+![分类](https://github.com/zhoujunjiang/MM36D/blob/master/screenshots/detail.jpg)
+
+
+## 第三方依赖
+
+[BRVAH](https://github.com/CymChad/BaseRecyclerViewAdapterHelper) 化繁为简
+RECYCLERVIEW从未如此简单
+
+[Glide](https://github.com/bumptech/glide) 图片加载
+
+[Aboutlibraries](https://github.com/mikepenz) 应用关于页面
+
+[CircleProgress](https://github.com/lzyzsd/CircleProgress) 圆形进度条
+
+[Retrofit2](https://github.com/square/retrofit) 网络请求
+
+[jsoup](https://jsoup.org/) html解析
+
+## 感谢
+
+[android-architecture](https://github.com/googlesamples/android-architecture)
+
+[wallsplash](https://github.com/mikepenz/wallsplash-android)
+
+[bingo](https://github.com/sfsheng0322/Bingo)
+
+## 最后
+
+本项目仅供学习，如有不妥之处请告知我进行修改
+
+Email: zlogo913@gmail.com
+
+
+
 
